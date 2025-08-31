@@ -18,13 +18,18 @@ jobs:
       - name: Publish image to docker hub
         run: docker push sonulodhi01/reactjs-app:latest   
 
-  deploy: 
+  deploy:
     needs: build
-    runs-on: aws-ec2    
+    runs-on: ubuntu-latest
     steps:
-      - name: Pull image from docker hub
-        run: docker pull sonulodhi01/reactjs-app:latest 
-      - name: Delete Old Container
-        run: docker rm -f reactContainer
-      - name: Run docker container
-        run: docker run -d -p 3000:80 --name reactContainer sonulodhi01/reactjs-app 
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull sonulodhi01/reactjs-app:latest
+            docker rm -f reactContainer || true
+            docker run -d -p 3000:80 --name reactContainer sonulodhi01/reactjs-app:latest
+ 
