@@ -4,6 +4,22 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+
+automerge:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Auto-merge pull requests
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ github.token }}
+          merge-method: squash
 
 jobs:
   build:
