@@ -23,9 +23,8 @@ jobs:
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.TOKEN }}
-          merge-method: squash  
+          merge-method: squash   
 
-jobs:
   build:
     runs-on: ubuntu-latest
     steps:
