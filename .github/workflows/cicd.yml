@@ -8,19 +8,6 @@ on:
     branches:
       - master
 
-automerge:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - name: Auto-merge pull requests
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ github.token }}
-          merge-method: squash
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,3 +31,16 @@ jobs:
         run: docker rm -f reactContainer
       - name: Run docker container
         run: docker run -d -p 3000:80 --name reactContainer sonulodhi01/reactjs-app
+
+automerge:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Auto-merge pull requests
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ github.token }}
+          merge-method: squash
