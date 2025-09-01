@@ -4,11 +4,9 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY . .
-# Fix permission issues for react-scripts
-RUN chmod +x node_modules/.bin/*
 RUN npm run build
 
-# Step 2: Server With Nginx
+# Step 2: Server With Nginx v
 FROM nginx:1.23-alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf *
