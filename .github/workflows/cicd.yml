@@ -32,7 +32,7 @@ jobs:
       - name: Run docker container
         run: docker run -d -p 3000:80 --name reactContainer sonulodhi01/reactjs-app
 
-automerge:
+  automerge:   # ✅ FIXED (now indented under jobs)
     needs: build
     runs-on: ubuntu-latest
     permissions:
